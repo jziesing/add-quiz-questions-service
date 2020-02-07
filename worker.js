@@ -31,15 +31,18 @@ var producer = new Kafka.Producer({
 });
 
 
-async function csvToJSON(keyURL) {
+async function fetchFileProduceKafkaMsgs(keyURL) {
     // get csv file and create stream
     console.log('keyURL');
     console.log(keyURL);
     const stream = s3.getObject({Bucket: 'quiz-playground', Key: keyURL}).createReadStream();
     // convert csv file (stream) to JSON format data
     const json = await csv().fromStream(stream);
-    var msgs =  [];
+
     var newjson = json.map((data, index) => {
+        console.log('data');
+        console.log(data);
+        console.log(JSON.stringify(data));
         return {
             topic: 'licking-49744.new_question',
             partition: 0,
@@ -48,14 +51,14 @@ async function csvToJSON(keyURL) {
             }
         }
     });
-    console.log(newjson);
-    producer.send(newjson);
+    console.log(newjson[0]);
+
     producer.init().then(function() {
-                        producer.send(newjson[0]);
-                    }).then(function(result) {
-                        console.log('kafka result');
-                        console.log(result);
-                    });
+        producer.send(newjson);
+    }).then(function(result) {
+        console.log('kafka result');
+        console.log(result);
+    });
 };
 
 
@@ -63,9 +66,17 @@ async function csvToJSON(keyURL) {
 var dataHandler = (messageSet, topic, partition) => {
     messageSet.forEach((m) => {
         console.log(topic, partition, m.offset, m.message.value.toString('utf8'));
-        csvToJSON(m.message.value.toString('utf8'));
+        fetchFileProduceKafkaMsgs(m.message.value.toString('utf8'));
     });
 };
+
+// var testDataHandler = (messageSet, topic, partition) => {
+//     messageSet.forEach((m) => {
+//         console.log('consummmeddd');
+//         console.log(topic, partition, m.offset, m.message.value.toString('utf8'));
+//     });
+// };
+//  && consumer.subscribe('licking-49744.new_question', [0], testDataHandler)
 
 return consumer.init().then(() => {
     // Subscribe partitons 0 and 1 in a topic:

@@ -124,8 +124,8 @@ async function fetchFileProduceKafkaMsgs(msgData) {
     producer.init().then(function() {
         producer.send(newjson, {
             batch: {
-                size: 4096,
-                maxWait: 1000
+                size: 1024,
+                maxWait: 300
             }
         });
     }).then(function(result) {

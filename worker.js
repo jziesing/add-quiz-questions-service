@@ -139,15 +139,15 @@ var dataHandler = (messageSet, topic, partition) => {
     });
 };
 
-// var testDataHandler = (messageSet, topic, partition) => {
-//     messageSet.forEach((m) => {
-//         console.log('consummmeddd');
-//         console.log(topic, partition, m.offset, m.message.value.toString('utf8'));
-//     });
-// };
+var testDataHandler = (messageSet, topic, partition) => {
+    messageSet.forEach((m) => {
+        console.log('consummmeddd');
+        console.log(topic, partition, m.offset, m.message.value.toString('utf8'));
+    });
+};
 //  && consumer.subscribe('new_question', [0], testDataHandler)
 
 return consumer.init().then(() => {
     // Subscribe partitons 0 and 1 in a topic:
-    return consumer.subscribe('add_qs_ms', [0], dataHandler);
+    return consumer.subscribe('add_qs_ms', [0], dataHandler) && consumer.subscribe('new_question', [0], testDataHandler);
 });

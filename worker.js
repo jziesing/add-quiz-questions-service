@@ -47,7 +47,7 @@ async function fetchFileProduceKafkaMsgs(msgData) {
         console.log(data);
         let formattedQuestionData = {
                             "schema": {
-                                "type": "record",
+                                "type": "quiz_question__c",
                                 "fields": [
                                     {
                                         "type": "string",

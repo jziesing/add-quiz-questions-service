@@ -113,7 +113,7 @@ async function fetchFileProduceKafkaMsgs(msgData) {
 
         // console.log(JSON.stringify(formattedQuestionData));
         return {
-            topic: 'licking-49744.new_question',
+            topic: 'new_question',
             partition: 0,
             message: {
                 value: JSON.stringify(formattedQuestionData)
@@ -145,9 +145,9 @@ var dataHandler = (messageSet, topic, partition) => {
 //         console.log(topic, partition, m.offset, m.message.value.toString('utf8'));
 //     });
 // };
-//  && consumer.subscribe('licking-49744.new_question', [0], testDataHandler)
+//  && consumer.subscribe('new_question', [0], testDataHandler)
 
 return consumer.init().then(() => {
     // Subscribe partitons 0 and 1 in a topic:
-    return consumer.subscribe('licking-49744.add_qs_ms', [0], dataHandler);
+    return consumer.subscribe('add_qs_ms', [0], dataHandler);
 });

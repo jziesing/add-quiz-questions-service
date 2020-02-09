@@ -47,7 +47,7 @@ async function fetchFileProduceKafkaMsgs(msgData) {
         console.log(data);
         let formattedQuestionData = {
                             "schema": {
-                                "type": "quiz_question__c",
+                                "type": "salesforce.quiz_question__c",
                                 "fields": [
                                     {
                                         "type": "string",

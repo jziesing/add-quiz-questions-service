@@ -112,7 +112,7 @@ async function fetchFileProduceKafkaMsgs(msgData) {
 
         // console.log(JSON.stringify(formattedQuestionData));
         return {
-            topic: 'salesforce.quiz_question__c',
+            topic: 'potomac-66595.salesforce.quiz_question__c',
             partition: 0,
             message: {
                 value: JSON.stringify(formattedQuestionData)
@@ -154,5 +154,5 @@ var dataHandler = (messageSet, topic, partition) => {
 
 return consumer.init().then(() => {
     // Subscribe partitons 0 and 1 in a topic:
-    return consumer.subscribe('add_qs_ms', [0], dataHandler);
+    return consumer.subscribe('potomac-66595.add_qs_ms', [0], dataHandler);
 });

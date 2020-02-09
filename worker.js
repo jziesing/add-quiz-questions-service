@@ -36,11 +36,11 @@ async function fetchFileProduceKafkaMsgs(msgData) {
     let newMsgData = JSON.parse(msgData);
     let keyURL = newMsgData.file_path;
     let quiz_sfid = newMsgData.quiz_sfid;
-
+    console.log('getting file');
     const stream = s3.getObject({Bucket: 'quiz-playground', Key: keyURL}).createReadStream();
     // convert csv file (stream) to JSON format data
     const json = await csv().fromStream(stream);
-
+    console.log('got file');
     var newjson = json.map((data, index) => {
         // console.log('data');
         // console.log(data);
@@ -120,7 +120,7 @@ async function fetchFileProduceKafkaMsgs(msgData) {
         }
     });
     // console.log(newjson[0]);
-
+    console.log('sending msgs');
     producer.init().then(function() {
         producer.send(newjson, {
             batch: {
@@ -129,7 +129,7 @@ async function fetchFileProduceKafkaMsgs(msgData) {
             }
         });
     }).then(function(result) {
-        console.log('kafka result');
+        console.log('msg senttt');
         // console.log(result);
     });
 };
@@ -137,6 +137,7 @@ async function fetchFileProduceKafkaMsgs(msgData) {
 
 // data handler function can return a Promise
 var dataHandler = (messageSet, topic, partition) => {
+    console.log('job starting');
     messageSet.forEach((m) => {
         // console.log(topic, partition, m.offset, m.message.value.toString('utf8'));
         fetchFileProduceKafkaMsgs(m.message.value.toString('utf8'));

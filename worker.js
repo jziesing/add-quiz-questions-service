@@ -113,7 +113,7 @@ async function fetchFileProduceKafkaMsgs(msgData) {
 
         // console.log(JSON.stringify(formattedQuestionData));
         return {
-            topic: 'new_question',
+            topic: 'salesforce.quiz_question__c',
             partition: 0,
             message: {
                 value: JSON.stringify(formattedQuestionData)

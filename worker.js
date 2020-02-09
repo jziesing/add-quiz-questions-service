@@ -149,5 +149,5 @@ var testDataHandler = (messageSet, topic, partition) => {
 
 return consumer.init().then(() => {
     // Subscribe partitons 0 and 1 in a topic:
-    return consumer.subscribe('add_qs_ms', [0], dataHandler) && consumer.subscribe('new_question', [0], testDataHandler);
+    return consumer.subscribe('add_qs_ms', [0], dataHandler) && consumer.subscribe('salesforce.quiz_question__c', [0], testDataHandler);
 });
